@@ -856,18 +856,67 @@ body.is-entering .nav {
 
 .gallery-head p { margin: 0.6rem 0 0; color: var(--ink-soft); font-size: 0.95rem; }
 
-.gallery {
-  columns: 4 16rem;
-  column-gap: 12px;
+/* ---------- Rooms ---------- */
+
+.room + .room {
+  margin-top: clamp(2.5rem, 5vw, 3.75rem);
+  padding-top: clamp(2.5rem, 5vw, 3.75rem);
+  border-top: 1px solid var(--rule);
 }
+
+.room__head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
+}
+
+.room__title {
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  font-weight: 400;
+  margin: 0;
+}
+
+.room__count {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+/* Fixed column count rather than auto-fit: with auto-fit, a two-photo room
+   stretches its tiles to half the page while a four-photo room stays small,
+   and the sections stop reading as one gallery. Fixed tracks keep every tile
+   the same size down the page. The 4:3 ratio does the same job for the mix of
+   portrait and landscape sources. */
+.room__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.room__grid .gallery__item {
+  margin: 0;
+  aspect-ratio: 4 / 3;
+}
+
+.room__grid .gallery__item img {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* No multi-column here any more — #gallery holds .room sections, and a
+   `columns` value would slice each room into a narrow strip. */
 
 .gallery__item {
   display: block;
   width: 100%;
-  margin: 0 0 12px;
+  margin: 0;
   padding: 0;
   border: 0;
-  break-inside: avoid;
   border-radius: 12px;
   overflow: hidden;
   background: var(--oat);
@@ -983,6 +1032,11 @@ body.is-entering .nav {
 @media (max-width: 1080px) {
   .listing-grid { grid-template-columns: 1fr; }
   .booking { position: static; }
+  .room__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .room__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 860px) {
@@ -1090,8 +1144,8 @@ body.is-entering .nav {
 }
 
 @media (max-width: 560px) {
-  .gallery { columns: 2 8rem; column-gap: 8px; }
-  .gallery__item { margin-bottom: 8px; }
+  .room__grid { gap: 8px; }
+  .room__head { margin-bottom: 1rem; }
   .nearby__group { grid-template-columns: 1fr; gap: 0.6rem; }
 
   /* "All places to stay" wraps to two lines and crowds the brand */

@@ -6,21 +6,52 @@
   "use strict";
 
   /* ----------------------------------------------------------
-     Photo manifest
-     Extensions differ per file, so they're mapped explicitly.
-     `order` controls how photos appear in the gallery + lightbox;
-     the first five match the mosaic tiles on the listing page.
+     Photo manifest, grouped by room.
+     Section order and per-room picks were set by the client.
+     `n` is the file number in images/unit-1-baguio/.
      ---------------------------------------------------------- */
 
   var PNG = [2, 3, 4, 7, 8, 17, 24, 30, 31, 48];
   var DIR = "images/unit-1-baguio/";
 
-  var order = [
-    11, 39, 21, 27, 9,          // mosaic tiles, in the same order
-    19, 26, 5, 1, 13, 30, 43,   // the rest of the strong shots
-    6, 10, 12, 14, 15, 16, 18, 20, 22, 23, 25, 28, 29,
-    32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 44, 45, 46, 47,
-    3, 4, 7, 8, 17, 24, 31, 48  // host's own info graphics last
+  var GROUPS = [
+    { title: "Bedroom 1", items: [
+      { n: 23, alt: "Double bed with a dark storage headboard beside a bright window" },
+      { n: 3,  alt: "Double bed and a single bed made up with tan throws" }
+    ]},
+    { title: "Bedroom 2", items: [
+      { n: 25, alt: "Bunk bed with a lower single bed beside a window" },
+      { n: 5,  alt: "Bunk bed with folded towels and a pull-out mattress below" }
+    ]},
+    { title: "Living room", items: [
+      { n: 10, alt: "Sofa bed below floating shelves in the living area" },
+      { n: 9,  alt: "Flat-screen television mounted on the wood-slat feature wall" }
+    ]},
+    { title: "Dining area", items: [
+      { n: 18, alt: "Dining table dressed with a runner, television on the slat wall behind" },
+      { n: 21, alt: "Dining table looking through to the living area and front door" }
+    ]},
+    { title: "Kitchen", items: [
+      { n: 16, alt: "Kitchen counter with rice cooker, kettle, hob and fridge" },
+      { n: 15, alt: "Open lower cabinet holding pots, a kettle and a slow cooker" },
+      { n: 13, alt: "Drawer of cutlery, cooking utensils and knives" }
+    ]},
+    { title: "Bathroom", items: [
+      { n: 30, alt: "Rain shower head and handheld shower in the tiled stall" },
+      { n: 31, alt: "Shower stall, toilet and towel rail" },
+      { n: 7,  alt: "Basin with a mirrored cabinet and hanging greenery" }
+    ]},
+    { title: "Exterior", items: [
+      { n: 39, alt: "Megatower 1 Residences seen from the street" },
+      { n: 1,  alt: "Glass main entrance at the top of the front steps" },
+      { n: 42, alt: "Ground-floor reception desk" },
+      { n: 45, alt: "Lit Megatower 1 sign above the lobby at night" }
+    ]},
+    { title: "Rooftop", items: [
+      { n: 33, alt: "Rooftop garden and paved deck looking over Baguio" },
+      { n: 37, alt: "Daytime view over the pines and hillside houses" },
+      { n: 32, alt: "Baguio city lights at night from the rooftop" }
+    ]}
   ];
 
   function src(n) {
@@ -29,7 +60,20 @@
     return DIR + "unit1-" + pad + "." + ext;
   }
 
-  var photos = order.map(src);
+  /* Flattened in section order — this is the sequence the lightbox walks,
+     so paging through it moves room by room. */
+  var photos = [];
+  GROUPS.forEach(function (group) {
+    group.items.forEach(function (item) {
+      item.index = photos.length;
+      photos.push({ n: item.n, src: src(item.n), alt: item.alt, room: group.title });
+    });
+  });
+
+  function indexOfPhoto(n) {
+    for (var i = 0; i < photos.length; i++) if (photos[i].n === n) return i;
+    return 0;
+  }
 
   /* ----------------------------------------------------------
      Hero — the window opens onto the scene
@@ -39,12 +83,26 @@
   var revealLayer = document.getElementById("revealLayer");
 
   if (hero && revealLayer) {
-    var cards = hero.querySelectorAll("[data-reveal]");
+    // Scoped to the cards themselves — the CTA also carries data-reveal, and
+    // shouldn't trigger a peek when you hover the button.
+    var cards = hero.querySelectorAll(".window-card");
+    var cta   = document.getElementById("exploreCta");
+
+    /* The hero CTA points at whichever stay is currently being previewed, so
+       "Explore the stay" stays truthful once the rail holds more than one. */
+    function setActive(card) {
+      if (!card || !cta) return;
+      cta.setAttribute("href", card.getAttribute("href"));
+      if (card.dataset.reveal) cta.dataset.reveal = card.dataset.reveal;
+    }
+
+    setActive(cards[0]);
 
     Array.prototype.forEach.call(cards, function (card) {
       function open() {
         revealLayer.style.backgroundImage = "url('" + card.dataset.reveal + "')";
         hero.classList.add("is-peeking");
+        setActive(card);
       }
       function close() {
         hero.classList.remove("is-peeking");
@@ -55,6 +113,24 @@
       card.addEventListener("focus", open);
       card.addEventListener("blur", close);
     });
+
+    /* Touch screens have no hover, so follow whichever card is scrolled into
+       the rail instead. Only meaningful once the rail actually scrolls. */
+    if (cards.length > 1 && "IntersectionObserver" in window) {
+      var rail = hero.querySelector(".window-rail");
+
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
+            setActive(entry.target);
+            revealLayer.style.backgroundImage =
+              "url('" + entry.target.dataset.reveal + "')";
+          }
+        });
+      }, { root: rail, threshold: [0.75] });
+
+      Array.prototype.forEach.call(cards, function (card) { spy.observe(card); });
+    }
   }
 
   /* ----------------------------------------------------------
@@ -126,25 +202,65 @@
   if (gallery) {
     var frag = document.createDocumentFragment();
 
-    photos.forEach(function (url, i) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "gallery__item";
-      btn.dataset.index = i;
-      btn.setAttribute("aria-label", "Open photo " + (i + 1) + " of " + photos.length);
+    GROUPS.forEach(function (group) {
+      var section = document.createElement("section");
+      section.className = "room";
 
-      var img = document.createElement("img");
-      img.src = url;
-      img.loading = "lazy";
-      img.decoding = "async";
-      img.alt = "";
+      var head = document.createElement("div");
+      head.className = "room__head";
 
-      btn.appendChild(img);
-      frag.appendChild(btn);
+      var h3 = document.createElement("h3");
+      h3.className = "room__title";
+      h3.textContent = group.title;
+
+      var count = document.createElement("span");
+      count.className = "room__count";
+      count.textContent = group.items.length +
+        (group.items.length === 1 ? " photo" : " photos");
+
+      head.appendChild(h3);
+      head.appendChild(count);
+
+      var grid = document.createElement("div");
+      grid.className = "room__grid";
+
+      group.items.forEach(function (item) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "gallery__item";
+        btn.dataset.index = item.index;
+        btn.setAttribute("aria-label", "Open photo: " + item.alt);
+
+        var img = document.createElement("img");
+        img.src = src(item.n);
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.alt = "";
+
+        btn.appendChild(img);
+        grid.appendChild(btn);
+      });
+
+      section.appendChild(head);
+      section.appendChild(grid);
+      frag.appendChild(section);
     });
 
     gallery.appendChild(frag);
   }
+
+  /* Mosaic tiles reference photos by file number, so reordering the groups
+     above can't silently point them at the wrong image. */
+  Array.prototype.forEach.call(
+    document.querySelectorAll("[data-photo]"),
+    function (tile) {
+      var i = indexOfPhoto(parseInt(tile.dataset.photo, 10));
+      tile.dataset.index = i;
+      if (!tile.getAttribute("aria-label")) {
+        tile.setAttribute("aria-label", "Open photo: " + photos[i].alt);
+      }
+    }
+  );
 
   /* ----------------------------------------------------------
      Lightbox
@@ -164,9 +280,13 @@
 
     function show(i) {
       index = (i + list.length) % list.length;
-      lbImg.src = list[index];
-      lbImg.alt = "Photo " + (index + 1) + " of " + list.length;
-      lbCount.textContent = (index + 1) + " / " + list.length;
+      var photo = list[index];
+
+      lbImg.src = photo.src;
+      lbImg.alt = photo.alt || "";
+      lbCount.textContent = photo.room
+        ? photo.room + " · " + (index + 1) + " / " + list.length
+        : (index + 1) + " / " + list.length;
 
       var multi = list.length > 1;
       lbCount.hidden = !multi;
@@ -197,14 +317,45 @@
       if (tile) { open(parseInt(tile.dataset.index, 10), null, tile); return; }
 
       var single = e.target.closest("[data-lightbox-src]");
-      if (single) { open(0, [single.dataset.lightboxSrc], single); }
+      if (single) {
+        open(0, [{ src: single.dataset.lightboxSrc,
+                   alt: single.dataset.lightboxAlt || "" }], single);
+      }
     });
 
     lbClose.addEventListener("click", close);
     lbPrev.addEventListener("click", function () { show(index - 1); });
     lbNext.addEventListener("click", function () { show(index + 1); });
 
+    /* Swipe to page through on touch screens. A swipe that starts on the
+       backdrop also fires a click, which would otherwise close the viewer
+       mid-gesture — hence the `swiped` guard. */
+    var touchX = null, touchY = null, swiped = false;
+
+    lb.addEventListener("touchstart", function (e) {
+      if (e.touches.length !== 1) { touchX = null; return; }
+      touchX = e.touches[0].clientX;
+      touchY = e.touches[0].clientY;
+      swiped = false;
+    }, { passive: true });
+
+    lb.addEventListener("touchend", function (e) {
+      if (touchX === null) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      var dy = e.changedTouches[0].clientY - touchY;
+      touchX = null;
+
+      if (list.length < 2) return;
+
+      // deliberate and horizontal, so vertical scrolling isn't hijacked
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        swiped = true;
+        show(dx < 0 ? index + 1 : index - 1);
+      }
+    }, { passive: true });
+
     lb.addEventListener("click", function (e) {
+      if (swiped) { swiped = false; return; }
       if (e.target === lb) close();
     });
 
