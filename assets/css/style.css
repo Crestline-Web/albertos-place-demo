@@ -894,9 +894,31 @@ body.is-entering .nav {
   aspect-ratio: 4 / 3;
 }
 
+/* `contain`, not `cover`: the whole photo is readable in the tile without
+   anyone having to open it. Most of these shots are portrait, so in a
+   landscape tile that leaves ~58% of the box empty — a blurred copy of the
+   same photo fills it, rather than dead bands of flat colour. Tile size is
+   unchanged either way. */
+.room__grid .gallery__item {
+  background: var(--bark);
+}
+
+.gallery__item-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(22px) saturate(1.15);
+  transform: scale(1.25);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 .room__grid .gallery__item img {
+  position: relative;
+  z-index: 1;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* No multi-column here any more — #gallery holds .room sections, and a
@@ -1092,9 +1114,8 @@ body.is-entering .nav {
   .window-rail::-webkit-scrollbar { display: none; }
   .window-card, .window-slot { width: 62vw; max-width: 240px; flex: none; }
 
-  /* No hover on touch — keep the unit's photo showing behind the card */
-  .hero .hero__layer--reveal { opacity: 1; transform: scale(1.1); }
-  .hero .hero__layer--base { opacity: 0; }
+  /* Touch screens keep the exterior establishing shot behind the card, same
+     as desktop at rest. The card itself stays the window into the unit. */
 
   .mosaic {
     grid-template-columns: 1fr 1fr;

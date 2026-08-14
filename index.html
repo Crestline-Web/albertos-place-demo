@@ -10,7 +10,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<!-- ?v= is a cache buster: browsers hold onto these files for ~10 minutes,
+     so bump the number whenever style.css or main.js changes, or people
+     keep seeing the previous version after a deploy. -->
+<link rel="stylesheet" href="assets/css/style.css?v=2">
 </head>
 <body>
 
@@ -57,7 +60,7 @@
       <!-- href + data-reveal are kept in sync with the active card by main.js -->
       <a class="btn" id="exploreCta" href="unit-1.html" data-enter
          data-reveal="images/unit-1-baguio/unit1-11.jpeg">
-        Explore the stay
+        Explore the unit
       </a>
     </div>
 
@@ -91,6 +94,6 @@
   </div>
 </header>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js?v=2"></script>
 </body>
 </html>

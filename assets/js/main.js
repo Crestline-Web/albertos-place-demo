@@ -225,12 +225,19 @@
         btn.dataset.index = item.index;
         btn.setAttribute("aria-label", "Open photo: " + item.alt);
 
+        // blurred copy of the same shot, filling the space a contained
+        // portrait photo leaves either side of itself
+        var bg = document.createElement("span");
+        bg.className = "gallery__item-bg";
+        bg.style.backgroundImage = "url('" + src(item.n) + "')";
+
         var img = document.createElement("img");
         img.src = src(item.n);
         img.loading = "lazy";
         img.decoding = "async";
         img.alt = "";
 
+        btn.appendChild(bg);
         btn.appendChild(img);
         grid.appendChild(btn);
       });
