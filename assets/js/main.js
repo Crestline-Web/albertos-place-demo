@@ -1,65 +1,24 @@
 /* ============================================================
-   TERRA STAYS — behaviour
+   ALBERTO'S PLACE — behaviour
    ============================================================ */
 
 (function () {
   "use strict";
 
   /* ----------------------------------------------------------
-     Photo manifest, grouped by room.
-     Section order and per-room picks were set by the client.
-     `n` is the file number in images/unit-1-baguio/.
+     Photo manifest — supplied per page by units.js, chosen with
+     <body data-unit="unit-2">. Landing page has no manifest.
      ---------------------------------------------------------- */
 
-  var PNG = [2, 3, 4, 7, 8, 17, 24, 30, 31, 48];
-  var DIR = "images/unit-1-baguio/";
-
-  var GROUPS = [
-    { title: "Bedroom 1", items: [
-      { n: 23, alt: "Double bed with a dark storage headboard beside a bright window" },
-      { n: 3,  alt: "Double bed and a single bed made up with tan throws" }
-    ]},
-    { title: "Bedroom 2", items: [
-      { n: 25, alt: "Bunk bed with a lower single bed beside a window" },
-      { n: 5,  alt: "Bunk bed with folded towels and a pull-out mattress below" }
-    ]},
-    { title: "Living room", items: [
-      { n: 10, alt: "Sofa bed below floating shelves in the living area" },
-      { n: 9,  alt: "Flat-screen television mounted on the wood-slat feature wall" }
-    ]},
-    { title: "Dining area", items: [
-      { n: 18, alt: "Dining table dressed with a runner, television on the slat wall behind" },
-      { n: 21, alt: "Dining table looking through to the living area and front door" }
-    ]},
-    { title: "Kitchen", items: [
-      { n: 16, alt: "Kitchen counter with rice cooker, kettle, hob and fridge" },
-      { n: 15, alt: "Open lower cabinet holding pots, a kettle and a slow cooker" },
-      // much wider than it is tall — a normal tile would crop it to a third
-      { n: 13, alt: "Drawer of cutlery, cooking utensils and knives", wide: true }
-    ]},
-    { title: "Bathroom", items: [
-      { n: 30, alt: "Rain shower head and handheld shower in the tiled stall" },
-      { n: 31, alt: "Shower stall, toilet and towel rail" },
-      { n: 7,  alt: "Basin with a mirrored cabinet and hanging greenery" }
-    ]},
-    { title: "Exterior", orient: "landscape", items: [
-      { n: 39, alt: "Megatower 1 Residences seen from the street" },
-      { n: 1,  alt: "Glass main entrance at the top of the front steps" },
-      { n: 42, alt: "Ground-floor reception desk" },
-      { n: 45, alt: "Lit Megatower 1 sign above the lobby at night" }
-    ]},
-    { title: "Rooftop", orient: "landscape", items: [
-      { n: 33, alt: "Rooftop garden and paved deck looking over Baguio" },
-      { n: 37, alt: "Daytime view over the pines and hillside houses" },
-      { n: 32, alt: "Baguio city lights at night from the rooftop" }
-    ]}
-  ];
+  var UNIT   = (window.UNITS || {})[document.body.dataset.unit] || null;
+  var GROUPS = UNIT ? UNIT.groups : [];
 
   function src(n) {
     var pad = n < 10 ? "0" + n : String(n);
-    var ext = PNG.indexOf(n) !== -1 ? "png" : "jpeg";
-    return DIR + "unit1-" + pad + "." + ext;
+    var ext = UNIT.alt.indexOf(n) !== -1 ? UNIT.altExt : UNIT.ext;
+    return UNIT.dir + UNIT.prefix + pad + "." + ext;
   }
+
 
   /* Flattened in section order — this is the sequence the lightbox walks,
      so paging through it moves room by room. */
