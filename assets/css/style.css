@@ -1,0 +1,1112 @@
+/* ============================================================
+   TERRA STAYS — core stylesheet
+   Palette: warm earth / brown aesthetic
+   ============================================================ */
+
+:root {
+  /* Earth palette */
+  --espresso: #241811;
+  --bark:     #33241a;
+  --walnut:   #5c4032;
+  --clay:     #8a5a3b;
+  --caramel:  #b5835a;
+  --sand:     #d8bfa4;
+  --oat:      #ead9c4;
+  --cream:    #f7f1e8;
+  --paper:    #fdfaf5;
+  --moss:     #6e7357;
+  --brand-tan: #e0b872;   /* sampled from the Alberto's Place mark */
+
+  --ink:        var(--espresso);
+  --ink-soft:   #6b5545;
+  --rule:       rgba(92, 64, 50, 0.16);
+
+  /* Type */
+  --display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --body:    "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout */
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --maxw: 1400px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* several components set an explicit display, which would otherwise beat the
+   UA rule for [hidden] */
+[hidden] { display: none !important; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--body);
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+button { font: inherit; color: inherit; }
+
+/* Keyboard focus has to stay visible everywhere. Anything below that hides an
+   outline must put back an equally clear indicator. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--brand-tan);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  padding: 0.8rem 1.25rem;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-variation-settings: "SOFT" 30, "WONK" 1;
+  letter-spacing: -0.015em;
+  margin: 0;
+  line-height: 1.05;
+}
+
+.u-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Film grain overlay, used on dark photographic surfaces */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   HERO — "window into the stay"
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--espresso);
+  isolation: isolate;
+}
+
+/* Stacked background layers. The base sits underneath; the reveal
+   layer holds the unit's own photo and fades + zooms in on hover,
+   so the thumbnail reads as a window opening onto the full scene. */
+.hero__layer {
+  position: absolute;
+  inset: -6%;                    /* bleed, so scaling never shows an edge */
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+.hero__layer--base {
+  transform: scale(1.04);
+  transition: transform 1600ms var(--ease-out), filter 900ms var(--ease-soft);
+}
+
+.hero__layer--reveal {
+  opacity: 0;
+  transform: scale(1.02);
+  transition:
+    opacity 900ms var(--ease-soft),
+    transform 2200ms var(--ease-out);
+}
+
+/* Warm scrim: pushes every photo toward the brown palette and keeps
+   text legible over phone-camera shots. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to right,
+      rgba(28, 18, 12, 0.88) 0%,
+      rgba(36, 24, 17, 0.62) 42%,
+      rgba(36, 24, 17, 0.28) 72%,
+      rgba(36, 24, 17, 0.55) 100%),
+    linear-gradient(to top,
+      rgba(28, 18, 12, 0.85) 0%,
+      rgba(28, 18, 12, 0.10) 45%,
+      rgba(28, 18, 12, 0.45) 100%),
+    radial-gradient(120% 90% at 20% 40%, rgba(138, 90, 59, 0.30), transparent 60%);
+  transition: opacity 900ms var(--ease-soft);
+}
+
+/* Peeking state — set while the card is hovered/focused.
+   The scrim deliberately stays at full strength: the reveal comes from
+   the image swap and the slow push-in, not from lifting the shade off
+   the headline. */
+.hero.is-peeking .hero__layer--reveal { opacity: 1; transform: scale(1.16); }
+.hero.is-peeking .hero__layer--base   { transform: scale(1.1); filter: blur(2px); }
+
+/* Stated explicitly rather than via :not() — the nav has to out-stack the hero
+   body so the open menu panel isn't painted behind the headline. */
+.hero > .nav,
+.hero > .hero__body { position: relative; }
+.hero > .hero__body { z-index: 2; }
+.hero > .nav        { z-index: 3; }
+
+/* ---------- Nav ---------- */
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.6rem var(--gutter);
+  color: var(--cream);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.brand__logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9px;
+  flex: none;
+  box-shadow: 0 1px 3px rgba(20, 12, 7, 0.25);
+}
+
+.brand__name {
+  font-family: var(--display);
+  font-size: 1.22rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  /* padded to a 44px tap target without changing the visual rhythm */
+  padding: 0.75rem 0;
+  opacity: 0.82;
+  transition: opacity 250ms var(--ease-soft);
+}
+
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0.55rem;
+  width: 100%;
+  height: 1px;
+  background: var(--sand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 400ms var(--ease-out);
+}
+
+a.nav__link:hover { opacity: 1; }
+a.nav__link:hover::after,
+.nav__link[aria-current="page"]::after { transform: scaleX(1); }
+
+.nav__link[aria-current="page"] { opacity: 1; }
+
+/* Sections that don't exist yet. Rendered as plain text, not as links that
+   quietly go nowhere. */
+.nav__link--soon { opacity: 0.45; cursor: default; }
+.nav__link--soon::after { display: none; }
+
+/* ---------- Menu toggle (small screens only) ---------- */
+
+.nav__toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(247, 241, 232, 0.28);
+  border-radius: 999px;
+  background: rgba(28, 18, 12, 0.35);
+  color: var(--cream);
+  cursor: pointer;
+  place-items: center;
+  backdrop-filter: blur(6px);
+}
+
+.nav__toggle span {
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 300ms var(--ease-out), opacity 200ms var(--ease-soft);
+}
+
+.nav__toggle span::before,
+.nav__toggle span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 16px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 300ms var(--ease-out);
+}
+
+.nav__toggle span::before { top: -5px; }
+.nav__toggle span::after  { top: 5px; }
+
+.nav__toggle[aria-expanded="true"] span { transform: rotate(45deg); }
+.nav__toggle[aria-expanded="true"] span::before { transform: translateY(5px) rotate(-90deg); }
+.nav__toggle[aria-expanded="true"] span::after  { opacity: 0; transform: translateY(-5px); }
+
+/* ---------- Hero body ---------- */
+
+.hero__body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding: 0 var(--gutter) clamp(2.5rem, 6vh, 4.5rem);
+}
+
+/* Without this the rail's intrinsic width props the whole grid open and
+   pushes the headline off-screen on narrow viewports. */
+.hero__body > * { min-width: 0; }
+
+.hero__copy { max-width: 34rem; color: var(--cream); }
+
+.hero__eyebrow {
+  color: var(--sand);
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.hero__eyebrow::before {
+  content: "";
+  width: 2.5rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.hero__title {
+  font-size: clamp(3.2rem, 9vw, 6.5rem);
+  line-height: 0.92;
+  margin-bottom: 1.5rem;
+}
+
+.hero__title em {
+  display: block;
+  font-style: italic;
+  font-variation-settings: "SOFT" 60, "WONK" 1;
+  color: var(--sand);
+}
+
+.hero__lede {
+  font-size: clamp(0.98rem, 1.3vw, 1.1rem);
+  line-height: 1.65;
+  color: rgba(247, 241, 232, 0.78);
+  max-width: 30rem;
+  margin: 0 0 2.25rem;
+}
+
+/* ---------- Button ---------- */
+
+.btn {
+  --btn-bg: var(--clay);
+  --btn-fg: var(--cream);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.65rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--body);
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 350ms var(--ease-soft), transform 350ms var(--ease-out);
+}
+
+.btn:hover { background: var(--caramel); transform: translateY(-2px); }
+
+.btn svg { transition: transform 400ms var(--ease-out); }
+.btn:hover svg { transform: translateX(4px); }
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--ink);
+  border: 1px solid var(--rule);
+}
+.btn--ghost:hover { --btn-bg: var(--oat); }
+
+/* ============================================================
+   THE WINDOW CARD
+   The thumbnail shows an oversized crop of the unit's photo, so it
+   reads as a small aperture cut into the scene behind it.
+   ============================================================ */
+
+.window-rail {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.25rem;
+}
+
+.window-card {
+  position: relative;
+  display: block;
+  width: clamp(190px, 17vw, 250px);
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--bark);
+  box-shadow:
+    0 2px 6px rgba(20, 12, 7, 0.30),
+    0 18px 45px rgba(20, 12, 7, 0.45);
+  transition:
+    transform 700ms var(--ease-out),
+    box-shadow 700ms var(--ease-out);
+}
+
+/* thin inner bevel — makes it feel cut, not pasted on */
+.window-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(247, 241, 232, 0.22);
+  box-shadow: inset 0 0 40px rgba(20, 12, 7, 0.35);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.window-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* oversized on purpose: you're seeing a slice of a bigger scene */
+  transform: scale(1.45);
+  transition: transform 1400ms var(--ease-out);
+  z-index: 1;
+}
+
+.window-card__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* Reaches high enough that the label always lands on a dark base,
+     even when the title wraps to two lines on a narrow card. */
+  background: linear-gradient(to top,
+    rgba(24, 15, 10, 0.92) 0%,
+    rgba(24, 15, 10, 0.78) 22%,
+    rgba(24, 15, 10, 0.30) 48%,
+    rgba(24, 15, 10, 0) 78%);
+  transition: opacity 700ms var(--ease-soft);
+}
+
+.window-card__label {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 4;
+  padding: 1.1rem 1.15rem;
+  color: var(--cream);
+}
+
+.window-card__place {
+  display: block;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 0.45rem;
+}
+
+.window-card__name {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.window-card__note {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: rgba(247, 241, 232, 0.72);
+}
+
+/* On hover the crop eases back toward 1:1 — the window "opens" and
+   matches the full-bleed scene now showing behind it. */
+.window-card:hover,
+.window-card:focus-visible {
+  transform: translateY(-10px);
+  box-shadow:
+    0 4px 10px rgba(20, 12, 7, 0.35),
+    0 30px 70px rgba(20, 12, 7, 0.55);
+}
+
+/* The crop eases open a little, but stays tighter than the scene behind
+   it — otherwise the card stops reading as an aperture and starts
+   competing with the background. */
+.window-card:hover .window-card__img,
+.window-card:focus-visible .window-card__img { transform: scale(1.28); }
+
+.window-card:hover .window-card__veil,
+.window-card:focus-visible .window-card__veil { opacity: 0.8; }
+
+/* Ghost slots standing in for the five stays still to come */
+.window-slot {
+  width: clamp(190px, 17vw, 250px);
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  border: 1px dashed rgba(247, 241, 232, 0.22);
+  display: grid;
+  place-items: center;
+  color: rgba(247, 241, 232, 0.42);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.hero__hint {
+  margin-top: 1.1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 241, 232, 0.66);
+  text-align: right;
+}
+
+/* "Hover" means nothing on a touch screen */
+[data-pointer="coarse"] { display: none; }
+
+@media (hover: none) {
+  [data-pointer="fine"]   { display: none; }
+  [data-pointer="coarse"] { display: inline; }
+}
+
+/* Click-through transition: the window swallows the page */
+body.is-entering .hero__layer--reveal { opacity: 1; transform: scale(1.4); }
+body.is-entering .hero__body,
+body.is-entering .nav { opacity: 0; transform: translateY(-8px); }
+body.is-entering .hero__body,
+body.is-entering .nav {
+  transition: opacity 450ms var(--ease-soft), transform 450ms var(--ease-soft);
+}
+
+/* ============================================================
+   LISTING PAGE
+   ============================================================ */
+
+.listing-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.1rem var(--gutter);
+  background: rgba(253, 250, 245, 0.86);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+}
+
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  transition: color 250ms var(--ease-soft);
+}
+
+.back-link__long  { white-space: nowrap; }
+.back-link__short { display: none; }
+.back-link:hover { color: var(--clay); }
+.back-link svg { transition: transform 350ms var(--ease-out); }
+.back-link:hover svg { transform: translateX(-4px); }
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ---------- Listing header ---------- */
+
+.listing-head { padding: clamp(2.5rem, 6vw, 4.5rem) 0 2rem; }
+
+.listing-head__eyebrow {
+  color: var(--clay);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.listing-head__eyebrow::before {
+  content: "";
+  width: 2.25rem; height: 1px;
+  background: currentColor; opacity: 0.5;
+}
+
+.listing-head h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  max-width: 20ch;
+  margin-bottom: 1.25rem;
+}
+
+.listing-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1.1rem;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.listing-meta span { display: inline-flex; align-items: center; gap: 0.45rem; }
+
+.listing-meta .dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--caramel);
+  opacity: 0.7;
+}
+
+/* ---------- Photo mosaic ---------- */
+
+.mosaic {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  grid-template-rows: repeat(2, minmax(140px, 30vh));
+  gap: 10px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.mosaic__item {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: var(--oat);
+  cursor: zoom-in;
+}
+
+.mosaic__item:first-child { grid-row: span 2; }
+
+.mosaic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1200ms var(--ease-out), filter 600ms var(--ease-soft);
+}
+
+.mosaic__item:hover img { transform: scale(1.06); filter: saturate(1.08); }
+
+/* the outline would be clipped by the tile's own overflow */
+.mosaic__item:focus-visible { outline-offset: -3px; }
+
+.mosaic__more {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(36, 24, 17, 0.55);
+  color: var(--cream);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background 350ms var(--ease-soft);
+}
+.mosaic__item:hover .mosaic__more { background: rgba(36, 24, 17, 0.42); }
+
+/* ---------- Two-column content ---------- */
+
+.listing-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0;
+}
+
+.section + .section {
+  margin-top: clamp(2.25rem, 4vw, 3.25rem);
+  padding-top: clamp(2.25rem, 4vw, 3.25rem);
+  border-top: 1px solid var(--rule);
+}
+
+.section h2 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- Bullet lists ---------- */
+
+.bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+/* min() keeps the track from demanding 20rem on a viewport narrower than that,
+   which otherwise props the whole page open past the screen edge */
+.bullets--two {
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+  gap: 0.9rem 2.5rem;
+}
+
+.bullets li {
+  position: relative;
+  padding-left: 1.7rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--caramel);
+}
+
+.bullets strong { color: var(--ink); font-weight: 500; }
+
+/* Distance list — for the "what's nearby" walk times */
+.nearby { display: grid; gap: 1.5rem; }
+
+.nearby__group {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.nearby__time {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  color: var(--clay);
+  padding-top: 0.05em;
+  white-space: nowrap;
+}
+
+.nearby__places {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.nearby__places span {
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.map-figure { margin: 2rem 0 0; }
+.map-figure__btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.map-figure img { width: 100%; border-radius: 14px; border: 1px solid var(--rule); }
+.map-figure figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+/* ---------- Booking aside ---------- */
+
+.booking {
+  position: sticky;
+  top: 5.5rem;
+  padding: 1.75rem;
+  border-radius: 18px;
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  box-shadow: 0 18px 45px rgba(92, 64, 50, 0.08);
+}
+
+.booking__label {
+  color: var(--clay);
+  margin-bottom: 0.9rem;
+}
+
+.booking h3 {
+  font-size: 1.45rem;
+  line-height: 1.2;
+  margin-bottom: 0.85rem;
+}
+
+.booking p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0 0 1.5rem;
+}
+
+.booking .btn { width: 100%; justify-content: center; }
+
+.booking__facts {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 1.35rem 0 0;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  gap: 0.7rem;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.booking__facts li { display: flex; justify-content: space-between; gap: 1rem; }
+.booking__facts strong { font-weight: 500; color: var(--ink); text-align: right; }
+
+/* ---------- Full gallery ---------- */
+
+.gallery-section {
+  background: var(--cream);
+  border-top: 1px solid var(--rule);
+  padding: clamp(3rem, 7vw, 5rem) 0;
+}
+
+.gallery-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2.25rem;
+}
+
+.gallery-head h2 { font-size: clamp(1.75rem, 3.4vw, 2.6rem); }
+
+.gallery-head p { margin: 0.6rem 0 0; color: var(--ink-soft); font-size: 0.95rem; }
+
+.gallery {
+  columns: 4 16rem;
+  column-gap: 12px;
+}
+
+.gallery__item {
+  display: block;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  break-inside: avoid;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--oat);
+  cursor: zoom-in;
+  position: relative;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  transition: transform 900ms var(--ease-out), filter 500ms var(--ease-soft);
+}
+
+.gallery__item:hover img { transform: scale(1.04); filter: saturate(1.06); }
+
+.gallery__item:focus-visible { outline-offset: -3px; }
+
+/* ---------- Lightbox ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  place-items: center;
+  background: rgba(24, 15, 10, 0.94);
+  backdrop-filter: blur(6px);
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.lightbox[open] { display: grid; }
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 86vh;
+  width: auto;
+  border-radius: 8px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox__ui {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.lightbox button {
+  position: absolute;
+  pointer-events: auto;
+  background: rgba(247, 241, 232, 0.10);
+  border: 1px solid rgba(247, 241, 232, 0.22);
+  color: var(--cream);
+  border-radius: 999px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 250ms var(--ease-soft);
+}
+.lightbox button:hover { background: rgba(247, 241, 232, 0.22); }
+
+.lightbox__close { top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; font-size: 1.1rem; }
+.lightbox__prev, .lightbox__next { top: 50%; transform: translateY(-50%); width: 52px; height: 52px; }
+.lightbox__prev { left: clamp(0.75rem, 2vw, 2rem); }
+.lightbox__next { right: clamp(0.75rem, 2vw, 2rem); }
+
+.lightbox__count {
+  position: absolute;
+  bottom: 1.75rem; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(247, 241, 232, 0.7);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  background: var(--espresso);
+  color: rgba(247, 241, 232, 0.72);
+  padding: clamp(3rem, 6vw, 4.5rem) 0 2rem;
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.footer .brand { color: var(--cream); }
+
+.footer__note { max-width: 26rem; font-size: 0.9rem; line-height: 1.7; margin: 1rem 0 0; }
+
+.footer__links a {
+  display: inline-block;
+  padding: 0.5rem 0;
+}
+
+.footer__bottom {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(247, 241, 232, 0.12);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  opacity: 0.6;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1080px) {
+  .listing-grid { grid-template-columns: 1fr; }
+  .booking { position: static; }
+}
+
+@media (max-width: 860px) {
+  .nav__toggle { display: grid; }
+
+  /* Links collapse into a panel rather than disappearing entirely */
+  .nav__links {
+    position: absolute;
+    top: calc(100% - 0.4rem);
+    right: var(--gutter);
+    left: var(--gutter);
+    z-index: 30;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 1.1rem;
+    border-radius: 14px;
+    background: rgba(30, 20, 14, 0.92);
+    border: 1px solid rgba(247, 241, 232, 0.16);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 24px 60px rgba(20, 12, 7, 0.5);
+    font-size: 0.95rem;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 260ms var(--ease-soft),
+                transform 260ms var(--ease-out),
+                visibility 260ms;
+  }
+
+  .nav__links[data-open="true"] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .nav__link { padding: 0.95rem 0; }
+
+  .nav__link + .nav__link { border-top: 1px solid rgba(247, 241, 232, 0.10); }
+
+  .nav__link::after { display: none; }
+
+  .nav__link[aria-current="page"]::before {
+    content: "";
+    width: 6px; height: 6px;
+    margin-right: 0.7rem;
+    border-radius: 50%;
+    background: var(--brand-tan);
+  }
+
+  .hero__body {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    align-content: end;
+    gap: 2.5rem;
+  }
+
+  .hero__hint { text-align: left; }
+
+  .window-rail { overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
+  .window-rail::-webkit-scrollbar { display: none; }
+  .window-card, .window-slot { width: 62vw; max-width: 240px; flex: none; }
+
+  /* No hover on touch — keep the unit's photo showing behind the card */
+  .hero .hero__layer--reveal { opacity: 1; transform: scale(1.1); }
+  .hero .hero__layer--base { opacity: 0; }
+
+  .mosaic {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 26vh);
+  }
+  .mosaic figure:first-child { grid-column: span 2; grid-row: span 1; }
+}
+
+/* Landscape phones. Stacking here buries the one tappable card ~850px below
+   the fold, so put the copy and the card back side by side and trim the text. */
+@media (max-width: 900px) and (max-height: 520px) and (orientation: landscape) {
+  .hero__body {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    align-content: normal;
+    gap: 2rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .hero__eyebrow { margin-bottom: 0.7rem; }
+  .hero__title { font-size: clamp(2rem, 5.5vw, 2.9rem); margin-bottom: 0.75rem; }
+  .hero__lede {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 1.1rem;
+    /* two lines is enough to set the scene at this height */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .hero__copy .btn { padding: 0.7rem 1.25rem; }
+
+  .window-rail { overflow: visible; }
+  .window-card, .window-slot { width: 132px; }
+  .window-card__note { display: none; }
+  .hero__hint { margin-top: 0.6rem; text-align: right; }
+}
+
+@media (max-width: 560px) {
+  .gallery { columns: 2 8rem; column-gap: 8px; }
+  .gallery__item { margin-bottom: 8px; }
+  .nearby__group { grid-template-columns: 1fr; gap: 0.6rem; }
+
+  /* "All places to stay" wraps to two lines and crowds the brand */
+  .back-link__long  { display: none; }
+  .back-link__short { display: inline; }
+
+  .listing-nav { gap: 1rem; }
+  .brand__name { font-size: 1.05rem; }
+  .brand__logo { width: 2.1rem; height: 2.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

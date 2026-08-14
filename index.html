@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alberto's Place — Places to Stay in Baguio</title>
+<meta name="description" content="A small collection of warm, well-placed staycation homes in Baguio City. Browse the stay, then book on Airbnb.">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#heroMain">Skip to content</a>
+
+<header class="hero grain" id="hero">
+
+  <!-- Background layers: base scene, then the unit's own photo which
+       fades and zooms in when the window card is hovered. -->
+  <div class="hero__layer hero__layer--base"
+       style="background-image:url('images/unit-1-baguio/unit1-39.jpeg')"></div>
+  <div class="hero__layer hero__layer--reveal" id="revealLayer"
+       style="background-image:url('images/unit-1-baguio/unit1-11.jpeg')"></div>
+  <div class="hero__scrim"></div>
+
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <img class="brand__logo" src="assets/img/logo-tile.png" alt="">
+      <span class="brand__name">Alberto&rsquo;s Place</span>
+    </a>
+    <button class="nav__toggle" id="navToggle"
+            aria-expanded="false" aria-controls="navMenu" aria-label="Open menu">
+      <span></span>
+    </button>
+
+    <div class="nav__links" id="navMenu" data-open="false">
+      <a class="nav__link" href="index.html" aria-current="page">Places to stay</a>
+      <span class="nav__link nav__link--soon">Experiences</span>
+      <span class="nav__link nav__link--soon">About</span>
+      <span class="nav__link nav__link--soon">Contact</span>
+    </div>
+  </nav>
+
+  <div class="hero__body" id="heroMain">
+
+    <div class="hero__copy">
+      <p class="u-eyebrow hero__eyebrow">Baguio City, Philippines</p>
+      <h1 class="hero__title">Stay in the<em>heart of it all</em></h1>
+      <p class="hero__lede">
+        Cool mountain air, pine on the wind, and Session Road two minutes from your
+        door. A small collection of warm, well-placed homes — chosen for where they
+        put you, not just what they look like.
+      </p>
+      <a class="btn" href="unit-1.html" data-enter>
+        Explore the stay
+        <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true">
+          <path d="M1 5h13M10 1l4 4-4 4" stroke="currentColor" stroke-width="1.4"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <div>
+      <div class="window-rail">
+
+        <!-- The window: an oversized crop of the unit's photo, so it reads
+             as an aperture cut into the scene behind it. -->
+        <a class="window-card" href="unit-1.html" data-enter
+           data-reveal="images/unit-1-baguio/unit1-11.jpeg">
+          <img class="window-card__img"
+               src="images/unit-1-baguio/unit1-11.jpeg"
+               alt="Warm living area of the Megatower 1 two-bedroom stay">
+          <span class="window-card__veil"></span>
+          <span class="window-card__label">
+            <span class="window-card__place">Megatower 1 · Baguio</span>
+            <span class="window-card__name">City Proper 2-Bedroom</span>
+            <span class="window-card__note">Walk to SM &amp; Burnham Park</span>
+          </span>
+        </a>
+
+        <div class="window-slot" aria-hidden="true">Coming soon</div>
+
+      </div>
+      <p class="hero__hint">
+        <span data-pointer="fine">Hover to look inside</span>
+        <span data-pointer="coarse">Tap to step inside</span>
+      </p>
+    </div>
+
+  </div>
+</header>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
