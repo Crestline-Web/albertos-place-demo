@@ -213,13 +213,7 @@
       h3.className = "room__title";
       h3.textContent = group.title;
 
-      var count = document.createElement("span");
-      count.className = "room__count";
-      count.textContent = group.items.length +
-        (group.items.length === 1 ? " photo" : " photos");
-
       head.appendChild(h3);
-      head.appendChild(count);
 
       var grid = document.createElement("div");
       grid.className = "room__grid";
