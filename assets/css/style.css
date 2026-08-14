@@ -889,36 +889,25 @@ body.is-entering .nav {
   gap: 12px;
 }
 
-.room__grid .gallery__item {
-  margin: 0;
-  aspect-ratio: 4 / 3;
+.room__grid .gallery__item { margin: 0; }
+
+.room__grid--portrait  .gallery__item { aspect-ratio: 3 / 4; }
+.room__grid--landscape .gallery__item { aspect-ratio: 4 / 3; }
+
+/* A photo far wider than its room's tile gets a double-width slot instead
+   of being cropped down to a sliver of itself. */
+.room__grid .gallery__item--wide {
+  grid-column: span 2;
+  aspect-ratio: 2 / 1;
 }
 
-/* `contain`, not `cover`: the whole photo is readable in the tile without
-   anyone having to open it. Most of these shots are portrait, so in a
-   landscape tile that leaves ~58% of the box empty — a blurred copy of the
-   same photo fills it, rather than dead bands of flat colour. Tile size is
-   unchanged either way. */
-.room__grid .gallery__item {
-  background: var(--bark);
-}
-
-.gallery__item-bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  filter: blur(22px) saturate(1.15);
-  transform: scale(1.25);
-  opacity: 0.6;
-  pointer-events: none;
-}
-
+/* Portrait tiles, because the source photos are overwhelmingly portrait.
+   A landscape tile left big empty margins around them; matching the tile to
+   the photo means `cover` fills it edge to edge with only a light crop, and
+   no filler behind. */
 .room__grid .gallery__item img {
-  position: relative;
-  z-index: 1;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 /* No multi-column here any more — #gallery holds .room sections, and a

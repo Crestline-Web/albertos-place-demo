@@ -34,20 +34,21 @@
     { title: "Kitchen", items: [
       { n: 16, alt: "Kitchen counter with rice cooker, kettle, hob and fridge" },
       { n: 15, alt: "Open lower cabinet holding pots, a kettle and a slow cooker" },
-      { n: 13, alt: "Drawer of cutlery, cooking utensils and knives" }
+      // much wider than it is tall — a normal tile would crop it to a third
+      { n: 13, alt: "Drawer of cutlery, cooking utensils and knives", wide: true }
     ]},
     { title: "Bathroom", items: [
       { n: 30, alt: "Rain shower head and handheld shower in the tiled stall" },
       { n: 31, alt: "Shower stall, toilet and towel rail" },
       { n: 7,  alt: "Basin with a mirrored cabinet and hanging greenery" }
     ]},
-    { title: "Exterior", items: [
+    { title: "Exterior", orient: "landscape", items: [
       { n: 39, alt: "Megatower 1 Residences seen from the street" },
       { n: 1,  alt: "Glass main entrance at the top of the front steps" },
       { n: 42, alt: "Ground-floor reception desk" },
       { n: 45, alt: "Lit Megatower 1 sign above the lobby at night" }
     ]},
-    { title: "Rooftop", items: [
+    { title: "Rooftop", orient: "landscape", items: [
       { n: 33, alt: "Rooftop garden and paved deck looking over Baguio" },
       { n: 37, alt: "Daytime view over the pines and hillside houses" },
       { n: 32, alt: "Baguio city lights at night from the rooftop" }
@@ -215,21 +216,18 @@
 
       head.appendChild(h3);
 
+      /* Tile shape follows the room's own photos. One shared ratio meant
+         either the portrait interiors sat in empty margins or the wide
+         rooftop views got cropped in half. */
       var grid = document.createElement("div");
-      grid.className = "room__grid";
+      grid.className = "room__grid room__grid--" + (group.orient || "portrait");
 
       group.items.forEach(function (item) {
         var btn = document.createElement("button");
         btn.type = "button";
-        btn.className = "gallery__item";
+        btn.className = "gallery__item" + (item.wide ? " gallery__item--wide" : "");
         btn.dataset.index = item.index;
         btn.setAttribute("aria-label", "Open photo: " + item.alt);
-
-        // blurred copy of the same shot, filling the space a contained
-        // portrait photo leaves either side of itself
-        var bg = document.createElement("span");
-        bg.className = "gallery__item-bg";
-        bg.style.backgroundImage = "url('" + src(item.n) + "')";
 
         var img = document.createElement("img");
         img.src = src(item.n);
@@ -237,7 +235,6 @@
         img.decoding = "async";
         img.alt = "";
 
-        btn.appendChild(bg);
         btn.appendChild(img);
         grid.appendChild(btn);
       });
