@@ -339,12 +339,21 @@ a.nav__link:hover::after,
 
 .hero__title {
   font-size: clamp(2.1rem, 4.2vw, 3.9rem);
-  line-height: 1.06;
+  line-height: 1.08;
   margin-bottom: 1.5rem;
-  /* whole line in the warm sand, bold — no white half */
+  /* Both lines sand, no white split — the contrast comes from weight and
+     italic instead of a color change. */
   color: var(--sand);
   font-weight: 600;
   font-variation-settings: "SOFT" 40, "WONK" 1;
+}
+
+.hero__title em {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "SOFT" 65, "WONK" 1;
+  opacity: 0.92;
 }
 
 .hero__lede {
