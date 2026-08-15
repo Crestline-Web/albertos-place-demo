@@ -147,8 +147,8 @@ h1, h2, h3, h4 {
   opacity: 0;
   transform: scale(1.02);
   transition:
-    opacity 1100ms var(--ease-soft),
-    transform 7000ms linear;
+    opacity 700ms var(--ease-soft),
+    transform 3500ms linear;
 }
 
 .hero__layer--reveal.is-on { opacity: 1; transform: scale(1.14); }

@@ -57,7 +57,7 @@
     var shown  = -1;     // which card the hero is currently showing
     var timer  = null;
 
-    var DWELL = 6000;
+    var DWELL = 3000;
     var still = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     /* The hero CTA points at whichever stay is on screen, so "Explore the
