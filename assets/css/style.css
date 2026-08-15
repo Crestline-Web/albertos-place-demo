@@ -256,11 +256,6 @@ a.nav__link:hover::after,
 
 .nav__link[aria-current="page"] { opacity: 1; }
 
-/* Sections that don't exist yet. Rendered as plain text, not as links that
-   quietly go nowhere. */
-.nav__link--soon { opacity: 0.45; cursor: default; }
-.nav__link--soon::after { display: none; }
-
 /* ---------- Menu toggle (small screens only) ---------- */
 
 .nav__toggle {
