@@ -1019,6 +1019,95 @@ body.is-entering .nav {
   letter-spacing: 0.14em;
 }
 
+/* ---------- Reviews (homepage, between hero and contact) ---------- */
+
+.reviews-section {
+  background: var(--cream);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+}
+
+.reviews-head { max-width: 40rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+
+.reviews-head__eyebrow {
+  color: var(--clay);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.reviews-head__eyebrow::before {
+  content: "";
+  width: 2.25rem; height: 1px;
+  background: currentColor; opacity: 0.5;
+}
+
+.reviews-head h2 {
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  margin-bottom: 1rem;
+}
+
+.reviews-head > p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+/* Cards vary a lot in length — masonry columns keep them tight instead of
+   padding every card out to the height of the longest one in its row. */
+.reviews-grid {
+  columns: 3 20rem;
+  column-gap: 1.5rem;
+}
+
+.review-card {
+  break-inside: avoid;
+  margin: 0 0 1.5rem;
+  padding: 1.6rem 1.75rem;
+  border-radius: 18px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  box-shadow: 0 12px 30px rgba(92, 64, 50, 0.06);
+}
+
+.review-card__stars {
+  margin: 0 0 0.9rem;
+  color: var(--brand-tan);
+  font-size: 0.95rem;
+  letter-spacing: 0.18em;
+  line-height: 1;
+}
+
+.review-card blockquote {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+.review-card figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.review-card__name {
+  font-family: var(--display);
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+
+.review-card__meta {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  opacity: 0.8;
+}
+
 /* ---------- Contact section (homepage, below the hero) ---------- */
 
 .contact-section {
