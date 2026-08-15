@@ -162,18 +162,6 @@ window.UNITS = {
     altExt: "png",
     alt: [8, 12, 13, 14],
     groups: [
-      { title: "Living room", orient: "portrait", items: [
-        { n: 9,  alt: "Living area and dining table seen along the galley kitchen" },
-        { n: 10, alt: "Sofa bed below a ring pendant light" }
-      ]},
-      { title: "Kitchen", orient: "portrait", items: [
-        { n: 11, alt: "Kitchen counter with sink, microwave and overhead cabinets" },
-        { n: 12, alt: "Kitchen counter looking through to the dining table" }
-      ]},
-      { title: "Dining area", orient: "portrait", items: [
-        { n: 6,  alt: "Dining table and sofa at the window end of the apartment" },
-        { n: 13, alt: "Carved dining chairs and a runner on the wooden table" }
-      ]},
       { title: "Bedroom 1", orient: "portrait", items: [
         { n: 4,  alt: "Double bed with a pull-out mattress beside the window" },
         { n: 5,  alt: "Double bed made up in cream below framed line art" }
@@ -181,6 +169,18 @@ window.UNITS = {
       { title: "Bedroom 2", orient: "portrait", items: [
         { n: 3,  alt: "Double bed below framed line art beside the window" },
         { n: 14, alt: "Double bed with a pull-out mattress drawn out alongside" }
+      ]},
+      { title: "Living room", orient: "portrait", items: [
+        { n: 9,  alt: "Living area and dining table seen along the galley kitchen" },
+        { n: 10, alt: "Sofa bed below a ring pendant light" }
+      ]},
+      { title: "Dining area", orient: "portrait", items: [
+        { n: 6,  alt: "Dining table and sofa at the window end of the apartment" },
+        { n: 13, alt: "Carved dining chairs and a runner on the wooden table" }
+      ]},
+      { title: "Kitchen", orient: "portrait", items: [
+        { n: 11, alt: "Kitchen counter with sink, microwave and overhead cabinets" },
+        { n: 12, alt: "Kitchen counter looking through to the dining table" }
       ]},
       { title: "Bathroom", orient: "portrait", items: [
         { n: 7,  alt: "Basin, toilet and glass-screened shower" }
