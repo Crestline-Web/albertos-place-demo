@@ -14,53 +14,6 @@
 
 window.UNITS = {
 
-  /* ---------------------------------------------------------- */
-  "unit-1": {
-    dir: "images/unit-1-baguio/",
-    prefix: "unit1-",
-    ext: "jpeg",
-    altExt: "png",
-    alt: [2, 3, 4, 7, 8, 17, 24, 30, 31, 48],
-    groups: [
-      { title: "Bedroom 1", orient: "portrait", items: [
-        { n: 23, alt: "Double bed with a dark storage headboard beside a bright window" },
-        { n: 3,  alt: "Double bed and a single bed made up with tan throws" }
-      ]},
-      { title: "Bedroom 2", orient: "portrait", items: [
-        { n: 25, alt: "Bunk bed with a lower single bed beside a window" },
-        { n: 5,  alt: "Bunk bed with folded towels and a pull-out mattress below" }
-      ]},
-      { title: "Living room", orient: "portrait", items: [
-        { n: 10, alt: "Sofa bed below floating shelves in the living area" },
-        { n: 9,  alt: "Flat-screen television mounted on the wood-slat feature wall" }
-      ]},
-      { title: "Dining area", orient: "portrait", items: [
-        { n: 18, alt: "Dining table dressed with a runner, television on the slat wall behind" },
-        { n: 21, alt: "Dining table looking through to the living area and front door" }
-      ]},
-      { title: "Kitchen", orient: "portrait", items: [
-        { n: 16, alt: "Kitchen counter with rice cooker, kettle, hob and fridge" },
-        { n: 15, alt: "Open lower cabinet holding pots, a kettle and a slow cooker" },
-        { n: 13, alt: "Drawer of cutlery, cooking utensils and knives", wide: true }
-      ]},
-      { title: "Bathroom", orient: "portrait", items: [
-        { n: 30, alt: "Rain shower head and handheld shower in the tiled stall" },
-        { n: 31, alt: "Shower stall, toilet and towel rail" },
-        { n: 7,  alt: "Basin with a mirrored cabinet and hanging greenery" }
-      ]},
-      { title: "Exterior", orient: "landscape", items: [
-        { n: 39, alt: "Megatower 1 Residences seen from the street" },
-        { n: 1,  alt: "Glass main entrance at the top of the front steps" },
-        { n: 42, alt: "Ground-floor reception desk" },
-        { n: 45, alt: "Lit Megatower 1 sign above the lobby at night" }
-      ]},
-      { title: "Rooftop", orient: "landscape", items: [
-        { n: 33, alt: "Rooftop garden and paved deck looking over Baguio" },
-        { n: 37, alt: "Daytime view over the pines and hillside houses" },
-        { n: 32, alt: "Baguio city lights at night from the rooftop" }
-      ]}
-    ]
-  },
 
   /* ---------------------------------------------------------- */
   "unit-2": {
@@ -96,8 +49,9 @@ window.UNITS = {
         { n: 25, alt: "Basin with mirrored cabinet, toilet and towel rail" },
         { n: 28, alt: "Rain shower in the glass-screened stall" }
       ]},
-      /* Same building as unit 1, so these are literally the same places —
-         shared rather than reshot per listing. */
+      /* The images/unit-1-baguio/ folder is kept as the Megatower photo set:
+         the original unit-1 listing was a duplicate of this one and its page
+         is gone, but its building and rooftop shots are the ones in use here. */
       { title: "Exterior", orient: "landscape", items: [
         { file: "images/unit-1-baguio/unit1-39.jpeg", alt: "Megatower 1 Residences seen from the street" },
         { file: "images/unit-1-baguio/unit1-01.jpeg", alt: "Glass main entrance at the top of the front steps" },
