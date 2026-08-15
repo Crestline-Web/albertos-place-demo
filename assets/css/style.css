@@ -1054,16 +1054,20 @@ body.is-entering .nav {
   line-height: 1.7;
 }
 
-/* Cards vary a lot in length — masonry columns keep them tight instead of
-   padding every card out to the height of the longest one in its row. */
+/* Every card the same size. grid-auto-rows: 1fr makes all rows match, not
+   just the cards beside each other, so all six are identical. The quote
+   flexes to fill so the name always sits on the bottom edge. */
 .reviews-grid {
-  columns: 3 20rem;
-  column-gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 1.5rem;
 }
 
 .review-card {
-  break-inside: avoid;
-  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
   padding: 1.6rem 1.75rem;
   border-radius: 18px;
   background: var(--paper);
@@ -1080,6 +1084,7 @@ body.is-entering .nav {
 }
 
 .review-card blockquote {
+  flex: 1;
   margin: 0 0 1.25rem;
   font-size: 0.95rem;
   line-height: 1.7;
@@ -1106,6 +1111,15 @@ body.is-entering .nav {
   letter-spacing: 0.04em;
   color: var(--ink-soft);
   opacity: 0.8;
+}
+
+@media (max-width: 1080px) {
+  .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .reviews-grid { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+  .review-card { padding: 1.4rem 1.5rem; }
 }
 
 /* ---------- Contact section (homepage, below the hero) ---------- */
