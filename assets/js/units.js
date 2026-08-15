@@ -178,7 +178,8 @@ window.UNITS = {
       ]},
       { title: "Balcony", orient: "portrait", items: [
         { n: 2, alt: "Balcony table and chairs looking over the pines at sunset" },
-        { n: 5, alt: "Baguio city lights seen from the balcony at night" }
+        { n: 5, alt: "Baguio city lights seen from the balcony at night" },
+        { n: 6, alt: "Balcony table with a lantern lit, fog rolling past the building" }
       ]},
       /* Same grounds as units 2 and 3 */
       { title: "Exterior", orient: "landscape", items: [
