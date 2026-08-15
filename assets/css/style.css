@@ -1024,6 +1024,42 @@ body.is-entering .nav {
   letter-spacing: 0.14em;
 }
 
+/* ---------- Contact page ---------- */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: 1.5rem;
+  padding-bottom: clamp(3rem, 6vw, 4.5rem);
+}
+
+.contact-card {
+  padding: 1.75rem;
+  border-radius: 18px;
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  box-shadow: 0 18px 45px rgba(92, 64, 50, 0.08);
+}
+
+.contact-card__label { color: var(--clay); margin-bottom: 0.9rem; }
+
+.contact-card h3 {
+  font-size: 1.45rem;
+  line-height: 1.2;
+  margin-bottom: 0.85rem;
+}
+
+.contact-card p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0 0 1.5rem;
+}
+
+.contact-card .btn { width: 100%; justify-content: center; }
+
+.contact-card__phones { display: grid; gap: 0.6rem; }
+
 /* ---------- Footer ---------- */
 
 .footer {
