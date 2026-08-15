@@ -149,5 +149,42 @@ window.UNITS = {
         { n: 15, alt: "Moldex Residences towers under a clear sky" }
       ]}
     ]
+  },
+
+  /* ----------------------------------------------------------
+     Moldex again — a one-bedroom on a high floor. Not listed on
+     Airbnb, so its page points at the Facebook page instead.
+     Same grounds as units 2 and 3, so the exterior shots are shared.
+     ---------------------------------------------------------- */
+  "unit-4": {
+    dir: "images/moldex-highfloor/",
+    prefix: "hf-",
+    ext: "jpg",
+    altExt: "jpg",
+    alt: [],
+    groups: [
+      { title: "Bedroom", orient: "portrait", items: [
+        { n: 3, alt: "Double bed with sage cushions beside the bedside lamp" }
+      ]},
+      { title: "Living room", orient: "portrait", items: [
+        { n: 8, alt: "Sofa bed under a floor lamp in the living area" }
+      ]},
+      { title: "Kitchen", orient: "portrait", items: [
+        { n: 4, alt: "Kitchen counter with sink, kettle, induction hob and open shelving" }
+      ]},
+      { title: "Bathroom", orient: "portrait", items: [
+        { n: 1, alt: "Basin, toilet and towel rail with trailing greenery" },
+        { n: 7, alt: "Shower with a wall-mounted water heater" }
+      ]},
+      { title: "Balcony", orient: "portrait", items: [
+        { n: 2, alt: "Balcony table and chairs looking over the pines at sunset" },
+        { n: 5, alt: "Baguio city lights seen from the balcony at night" }
+      ]},
+      /* Same grounds as units 2 and 3 */
+      { title: "Exterior", orient: "landscape", items: [
+        { file: "images/unit-4-baguio/unit4-01.jpeg", alt: "Moldex Residences entrance and grounds" },
+        { file: "images/unit-4-baguio/unit4-15.jpeg", alt: "Moldex Residences towers under a clear sky" }
+      ]}
+    ]
   }
 };
