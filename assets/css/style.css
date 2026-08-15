@@ -831,6 +831,9 @@ body.is-entering .nav {
 
 .booking .btn { width: 100%; justify-content: center; }
 
+/* Two ways to book the same place — stacked, primary first */
+.booking__options { display: grid; gap: 0.6rem; }
+
 .booking__facts {
   list-style: none;
   margin: 1.5rem 0 0;

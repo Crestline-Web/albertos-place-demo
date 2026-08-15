@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
 <!-- ?v= is a cache buster — see the note in index.html. Bump both files
      together whenever style.css or main.js changes. -->
-<link rel="stylesheet" href="assets/css/style.css?v=12">
+<link rel="stylesheet" href="assets/css/style.css?v=13">
 </head>
 <body data-unit="unit-4">
 
@@ -84,6 +84,7 @@
             <li>High-speed wi-fi</li>
             <li>Free parking on site</li>
             <li>Pets allowed</li>
+            <li>Solo-room option shares the living room, kitchen and bathroom</li>
           </ul>
         </section>
 
@@ -116,10 +117,12 @@
         <section class="section">
           <h2>Good to know</h2>
           <ul class="bullets bullets--two">
-            <li>Maximum of 12 guests</li>
+            <li>Maximum of 12 guests in the whole unit, 6 on the solo-room booking</li>
             <li>Pets allowed</li>
+            <li>Solo-room option shares the living room, kitchen and bathroom</li>
             <li>Free parking on premises</li>
-            <li>Lift access</li>
+            <li>Lock on the bedroom door</li>
+            <li>Exterior security cameras on the property</li>
             <li>Smoke alarm and carbon monoxide alarm</li>
             <li>Message the host once you&rsquo;ve checked out</li>
           </ul>
@@ -129,26 +132,39 @@
 
       <!-- Booking aside -->
       <aside class="booking">
-        <p class="u-eyebrow booking__label">Availability &amp; rates</p>
+        <p class="u-eyebrow booking__label">Two ways to book</p>
         <h3>Book this stay on Airbnb</h3>
         <p>
-          Live pricing, open dates and reviews are all kept on the Airbnb listing.
-          You&rsquo;ll be taken straight there.
+          Take the whole apartment, or book just one private bedroom and share
+          the living room, kitchen and bathroom with other guests. Live pricing
+          and open dates are on Airbnb.
         </p>
-        <a class="btn"
-           href="https://www.airbnb.com/rooms/1438282737805629484"
-           target="_blank" rel="noopener">
-          View on Airbnb
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M4 10L10 4M10 4H5M10 4v5" stroke="currentColor" stroke-width="1.4"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
+
+        <div class="booking__options">
+          <a class="btn"
+             href="https://www.airbnb.com/rooms/1438282737805629484"
+             target="_blank" rel="noopener">
+            Whole unit &middot; up to 12 pax
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M4 10L10 4M10 4H5M10 4v5" stroke="currentColor" stroke-width="1.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="btn btn--ghost"
+             href="https://www.airbnb.com/rooms/1750696690886273585"
+             target="_blank" rel="noopener">
+            Solo room &middot; shared areas
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M4 10L10 4M10 4H5M10 4v5" stroke="currentColor" stroke-width="1.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
         <ul class="booking__facts">
           <li><span>Bedrooms</span><strong>2</strong></li>
           <li><span>Guests</span><strong>Up to 12 pax</strong></li>
-          <li><span>Check-in</span><strong>After 2:00 PM</strong></li>
-          <li><span>Checkout</span><strong>Before 10:00 AM</strong></li>
+          <li><span>Solo room</span><strong>Up to 6 pax</strong></li>
           <li><span>Building</span><strong>Moldex Residences</strong></li>
         </ul>
       </aside>
@@ -192,8 +208,7 @@
         <a href="unit-1.html">City Proper 2-Bedroom</a><br>
         <a href="unit-2.html">Two-Bedroom, Burnham &amp; SM</a><br>
         <a href="unit-3.html">1BR Overlooking Balcony</a><br>
-        <a href="unit-4.html">2BR Moldex, Pet Friendly</a><br>
-        <span style="opacity:0.45">Two more coming soon</span>
+        <a href="unit-4.html">2BR Moldex, Pet Friendly</a>
       </p>
     </div>
   </div>
@@ -217,7 +232,7 @@
   </div>
 </div>
 
-<script src="assets/js/units.js?v=12"></script>
-<script src="assets/js/main.js?v=12"></script>
+<script src="assets/js/units.js?v=13"></script>
+<script src="assets/js/main.js?v=13"></script>
 </body>
 </html>
