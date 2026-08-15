@@ -13,7 +13,7 @@
 <!-- ?v= is a cache buster: browsers hold onto these files for ~10 minutes,
      so bump the number whenever style.css or main.js changes, or people
      keep seeing the previous version after a deploy. -->
-<link rel="stylesheet" href="assets/css/style.css?v=7">
+<link rel="stylesheet" href="assets/css/style.css?v=11">
 </head>
 <body>
 
@@ -25,8 +25,10 @@
        fades and zooms in when the window card is hovered. -->
   <div class="hero__layer hero__layer--base"
        style="background-image:url('images/unit-1-baguio/unit1-39.jpeg')"></div>
-  <div class="hero__layer hero__layer--reveal" id="revealLayer"
-       style="background-image:url('images/unit-1-baguio/unit1-11.jpeg')"></div>
+  <!-- Two reveal layers, alternated, so one unit can cross-fade into the
+       next rather than the image snapping over. -->
+  <div class="hero__layer hero__layer--reveal" id="revealLayer"></div>
+  <div class="hero__layer hero__layer--reveal" id="revealLayerB"></div>
   <div class="hero__scrim"></div>
 
   <nav class="nav">
@@ -108,6 +110,19 @@
           </span>
         </a>
 
+        <a class="window-card" href="unit-4.html" data-enter
+           data-reveal="images/unit-4-baguio/unit4-10.jpeg">
+          <img class="window-card__img"
+               src="images/unit-4-baguio/unit4-10.jpeg"
+               alt="Sofa bed below a ring pendant light at the Moldex two-bedroom">
+          <span class="window-card__veil"></span>
+          <span class="window-card__label">
+            <span class="window-card__place">Moldex · Baguio</span>
+            <span class="window-card__name">2BR Pet Friendly</span>
+            <span class="window-card__note">Free parking &amp; newly renovated</span>
+          </span>
+        </a>
+
         <div class="window-slot" aria-hidden="true">Coming soon</div>
 
       </div>
@@ -120,7 +135,7 @@
   </div>
 </header>
 
-<script src="assets/js/units.js?v=7"></script>
-<script src="assets/js/main.js?v=7"></script>
+<script src="assets/js/units.js?v=11"></script>
+<script src="assets/js/main.js?v=11"></script>
 </body>
 </html>

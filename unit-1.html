@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
 <!-- ?v= is a cache buster — see the note in index.html. Bump both files
      together whenever style.css or main.js changes. -->
-<link rel="stylesheet" href="assets/css/style.css?v=7">
+<link rel="stylesheet" href="assets/css/style.css?v=11">
 </head>
 <body data-unit="unit-1">
 
@@ -49,19 +49,19 @@
 
     <!-- Featured mosaic — each tile opens the lightbox at that photo -->
     <section class="mosaic" id="mosaic" aria-label="Featured photos">
-      <button class="mosaic__item" type="button" data-photo="10">
+      <button class="mosaic__item" type="button">
         <img src="images/unit-1-baguio/unit1-10.jpeg" alt="Sofa bed below floating shelves in the living area">
       </button>
-      <button class="mosaic__item" type="button" data-photo="39">
+      <button class="mosaic__item" type="button">
         <img src="images/unit-1-baguio/unit1-39.jpeg" alt="Megatower 1 Residences seen from the street">
       </button>
-      <button class="mosaic__item" type="button" data-photo="33">
+      <button class="mosaic__item" type="button">
         <img src="images/unit-1-baguio/unit1-33.jpeg" alt="Rooftop garden and paved deck looking over Baguio">
       </button>
-      <button class="mosaic__item" type="button" data-photo="23">
+      <button class="mosaic__item" type="button">
         <img src="images/unit-1-baguio/unit1-23.jpeg" alt="Double bed with a dark storage headboard beside a bright window">
       </button>
-      <button class="mosaic__item" type="button" data-photo="16">
+      <button class="mosaic__item" type="button">
         <img src="images/unit-1-baguio/unit1-16.jpeg" alt="Kitchen counter with rice cooker, kettle, hob and fridge">
         <span class="mosaic__more">View all photos</span>
       </button>
@@ -76,10 +76,10 @@
           <ul class="bullets bullets--two">
             <li>Two bedrooms with bunk beds and pull-out mattresses</li>
             <li>Up to 12 pax</li>
-            <li>Living area with a sofa bed and feature wood-slat wall</li>
+            <li>Refrigerator</li>
             <li>Dining table and chairs</li>
             <li>Kitchen with cookware, cutlery and utensils</li>
-            <li>Two Smart TVs</li>
+            <li>Smart TV</li>
             <li>Bathroom with water heater</li>
             <li>High-speed wi-fi</li>
           </ul>
@@ -92,7 +92,7 @@
           </p>
           <div class="nearby">
             <div class="nearby__group">
-              <p class="nearby__time">2 mins</p>
+              <p class="nearby__time">2&ndash;3 mins</p>
               <div class="nearby__places">
                 <span>Baguio Cathedral</span><span>Mormon Church</span>
               </div>
@@ -109,15 +109,20 @@
               <p class="nearby__time">7&ndash;10 mins</p>
               <div class="nearby__places">
                 <span>SM City Baguio</span><span>Burnham Park</span>
-              </div>
-            </div>
-            <div class="nearby__group">
-              <p class="nearby__time">12 mins</p>
-              <div class="nearby__places">
                 <span>Baguio Night Market</span><span>Baguio Public Market</span>
               </div>
             </div>
           </div>
+
+          <figure class="map-figure">
+            <button class="map-figure__btn" type="button"
+                    data-lightbox-src="assets/img/megatower-walking-map.png"
+                    data-lightbox-alt="Map of walking times from the building to nearby Baguio landmarks">
+              <img src="assets/img/megatower-walking-map.png"
+                   alt="Map of walking times from the building: 3 minutes to Baguio Cathedral, 7 to SM City Baguio, 8 to Harrison Road Night Market, 9 to Baguio City Public Market, 10 to Burnham Park">
+            </button>
+            <figcaption>Walking times from the building, as mapped by the host.</figcaption>
+          </figure>
         </section>
 
         <section class="section">
@@ -197,7 +202,10 @@
       <p class="u-eyebrow" style="color:var(--sand);margin-bottom:0.9rem">Stays</p>
       <p class="footer__links" style="margin:0;font-size:0.9rem;line-height:1.6">
         <a href="unit-1.html">City Proper 2-Bedroom</a><br>
-        <span style="opacity:0.45">Five more coming soon</span>
+        <a href="unit-2.html">Two-Bedroom, Burnham &amp; SM</a><br>
+        <a href="unit-3.html">1BR Overlooking Balcony</a><br>
+        <a href="unit-4.html">2BR Moldex, Pet Friendly</a><br>
+        <span style="opacity:0.45">Two more coming soon</span>
       </p>
     </div>
   </div>
@@ -221,7 +229,7 @@
   </div>
 </div>
 
-<script src="assets/js/units.js?v=7"></script>
-<script src="assets/js/main.js?v=7"></script>
+<script src="assets/js/units.js?v=11"></script>
+<script src="assets/js/main.js?v=11"></script>
 </body>
 </html>

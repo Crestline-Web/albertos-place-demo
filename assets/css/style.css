@@ -140,13 +140,18 @@ h1, h2, h3, h4 {
   transition: transform 1600ms var(--ease-out), filter 900ms var(--ease-soft);
 }
 
+/* Visibility is driven by JS rather than by .is-peeking, because two of these
+   alternate to cross-fade one unit into the next. The long transform makes a
+   slow push-in that runs for the whole time a unit is on screen. */
 .hero__layer--reveal {
   opacity: 0;
   transform: scale(1.02);
   transition:
-    opacity 900ms var(--ease-soft),
-    transform 2200ms var(--ease-out);
+    opacity 1100ms var(--ease-soft),
+    transform 7000ms linear;
 }
+
+.hero__layer--reveal.is-on { opacity: 1; transform: scale(1.14); }
 
 /* Warm scrim: pushes every photo toward the brown palette and keeps
    text legible over phone-camera shots. */
@@ -172,8 +177,7 @@ h1, h2, h3, h4 {
    The scrim deliberately stays at full strength: the reveal comes from
    the image swap and the slow push-in, not from lifting the shade off
    the headline. */
-.hero.is-peeking .hero__layer--reveal { opacity: 1; transform: scale(1.16); }
-.hero.is-peeking .hero__layer--base   { transform: scale(1.1); filter: blur(2px); }
+.hero.is-peeking .hero__layer--base { transform: scale(1.1); filter: blur(2px); }
 
 /* Stated explicitly rather than via :not() — the nav has to out-stack the hero
    body so the open menu panel isn't painted behind the headline. */
@@ -418,6 +422,12 @@ a.nav__link:hover::after,
 }
 
 /* thin inner bevel — makes it feel cut, not pasted on */
+.window-card.is-showing::after {
+  border-color: rgba(224, 184, 114, 0.85);
+  box-shadow: inset 0 0 40px rgba(20, 12, 7, 0.35),
+              0 0 0 1px rgba(224, 184, 114, 0.35);
+}
+
 .window-card::after {
   content: "";
   position: absolute;
@@ -538,7 +548,7 @@ a.nav__link:hover::after,
 }
 
 /* Click-through transition: the window swallows the page */
-body.is-entering .hero__layer--reveal { opacity: 1; transform: scale(1.4); }
+body.is-entering .hero__layer--reveal.is-on { transform: scale(1.4); }
 body.is-entering .hero__body,
 body.is-entering .nav { opacity: 0; transform: translateY(-8px); }
 body.is-entering .hero__body,

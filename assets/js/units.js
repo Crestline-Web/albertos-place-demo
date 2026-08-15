@@ -81,10 +81,10 @@ window.UNITS = {
       { title: "Living room", orient: "portrait", items: [
         { n: 10, alt: "Corner sofa bed with yellow cushions below floating shelves" },
         { n: 9,  alt: "Sofa bed seen along the living area" },
-        { n: 11, alt: "Yellow cushions and bolsters on the cream sofa bed" }
+        { n: 5,  alt: "Sofa bed beside the fridge at the edge of the kitchen" }
       ]},
       { title: "Dining area", orient: "portrait", items: [
-        { n: 19, alt: "Glass-topped dining table with four chairs" },
+        { n: 21, alt: "Glass-topped dining table for four below framed wall art" },
         { n: 3,  alt: "Dining table and television on the wood-slat wall" }
       ]},
       { title: "Kitchen", orient: "portrait", items: [
@@ -96,11 +96,18 @@ window.UNITS = {
         { n: 25, alt: "Basin with mirrored cabinet, toilet and towel rail" },
         { n: 28, alt: "Rain shower in the glass-screened stall" }
       ]},
-      { title: "Exterior", orient: "portrait", items: [
-        { n: 37, alt: "Ground-floor reception desk at Megatower 1 Residences" }
+      /* Same building as unit 1, so these are literally the same places —
+         shared rather than reshot per listing. */
+      { title: "Exterior", orient: "landscape", items: [
+        { file: "images/unit-1-baguio/unit1-39.jpeg", alt: "Megatower 1 Residences seen from the street" },
+        { file: "images/unit-1-baguio/unit1-01.jpeg", alt: "Glass main entrance at the top of the front steps" },
+        { file: "images/unit-1-baguio/unit1-42.jpeg", alt: "Ground-floor reception desk" },
+        { file: "images/unit-1-baguio/unit1-45.jpeg", alt: "Lit Megatower 1 sign above the lobby at night" }
       ]},
-      { title: "Rooftop", orient: "portrait", items: [
-        { n: 1,  alt: "Rooftop garden and paved deck looking over Baguio" }
+      { title: "Rooftop", orient: "landscape", items: [
+        { file: "images/unit-1-baguio/unit1-33.jpeg", alt: "Rooftop garden and paved deck looking over Baguio" },
+        { file: "images/unit-1-baguio/unit1-37.jpeg", alt: "Daytime view over the pines and hillside houses" },
+        { file: "images/unit-1-baguio/unit1-32.jpeg", alt: "Baguio city lights at night from the rooftop" }
       ]}
     ]
   },
@@ -137,8 +144,50 @@ window.UNITS = {
         { n: 2,  alt: "Balcony table and chairs looking over the pines at sunset" },
         { n: 19, alt: "Sunset over the hillside seen from the balcony" }
       ]},
+      /* Same grounds as unit 4, so these are shared rather than duplicated. */
       { title: "Exterior", orient: "landscape", items: [
-        { n: 20, alt: "Moldex Residences entrance and grounds" }
+        { file: "images/unit-4-baguio/unit4-01.jpeg", alt: "Moldex Residences entrance and grounds" },
+        { file: "images/unit-4-baguio/unit4-15.jpeg", alt: "Moldex Residences towers under a clear sky" }
+      ]}
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     Moldex Residences, same grounds as unit 3, but a two-bedroom.
+     ---------------------------------------------------------- */
+  "unit-4": {
+    dir: "images/unit-4-baguio/",
+    prefix: "unit4-",
+    ext: "jpeg",
+    altExt: "png",
+    alt: [8, 12, 13, 14],
+    groups: [
+      { title: "Living room", orient: "portrait", items: [
+        { n: 9,  alt: "Living area and dining table seen along the galley kitchen" },
+        { n: 10, alt: "Sofa bed below a ring pendant light" }
+      ]},
+      { title: "Kitchen", orient: "portrait", items: [
+        { n: 11, alt: "Kitchen counter with sink, microwave and overhead cabinets" },
+        { n: 12, alt: "Kitchen counter looking through to the dining table" }
+      ]},
+      { title: "Dining area", orient: "portrait", items: [
+        { n: 6,  alt: "Dining table and sofa at the window end of the apartment" },
+        { n: 13, alt: "Carved dining chairs and a runner on the wooden table" }
+      ]},
+      { title: "Bedroom 1", orient: "portrait", items: [
+        { n: 4,  alt: "Double bed with a pull-out mattress beside the window" },
+        { n: 5,  alt: "Double bed made up in cream below framed line art" }
+      ]},
+      { title: "Bedroom 2", orient: "portrait", items: [
+        { n: 3,  alt: "Double bed below framed line art beside the window" },
+        { n: 14, alt: "Double bed with a pull-out mattress drawn out alongside" }
+      ]},
+      { title: "Bathroom", orient: "portrait", items: [
+        { n: 7,  alt: "Basin, toilet and glass-screened shower" }
+      ]},
+      { title: "Exterior", orient: "landscape", items: [
+        { n: 1,  alt: "Moldex Residences entrance and grounds" },
+        { n: 15, alt: "Moldex Residences towers under a clear sky" }
       ]}
     ]
   }

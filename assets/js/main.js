@@ -13,7 +13,12 @@
   var UNIT   = (window.UNITS || {})[document.body.dataset.unit] || null;
   var GROUPS = UNIT ? UNIT.groups : [];
 
-  function src(n) {
+  /* An item is normally a file number inside this unit's own folder, but it
+     can carry an explicit `file` instead — units 1 and 2 share a building, so
+     they share the exterior and rooftop shots rather than duplicating them. */
+  function src(item) {
+    if (item.file) return item.file;
+    var n = item.n;
     var pad = n < 10 ? "0" + n : String(n);
     var ext = UNIT.alt.indexOf(n) !== -1 ? UNIT.altExt : UNIT.ext;
     return UNIT.dir + UNIT.prefix + pad + "." + ext;
@@ -26,13 +31,13 @@
   GROUPS.forEach(function (group) {
     group.items.forEach(function (item) {
       item.index = photos.length;
-      photos.push({ n: item.n, src: src(item.n), alt: item.alt, room: group.title });
+      photos.push({ src: src(item), alt: item.alt, room: group.title });
     });
   });
 
-  function indexOfPhoto(n) {
-    for (var i = 0; i < photos.length; i++) if (photos[i].n === n) return i;
-    return 0;
+  function indexOfPhoto(path) {
+    for (var i = 0; i < photos.length; i++) if (photos[i].src === path) return i;
+    return -1;
   }
 
   /* ----------------------------------------------------------
@@ -45,52 +50,85 @@
   if (hero && revealLayer) {
     // Scoped to the cards themselves — the CTA also carries data-reveal, and
     // shouldn't trigger a peek when you hover the button.
-    var cards = hero.querySelectorAll(".window-card");
-    var cta   = document.getElementById("exploreCta");
+    var cards  = Array.prototype.slice.call(hero.querySelectorAll(".window-card"));
+    var cta    = document.getElementById("exploreCta");
+    var layers = [revealLayer, document.getElementById("revealLayerB")].filter(Boolean);
+    var front  = 0;      // which layer is currently on screen
+    var shown  = -1;     // which card the hero is currently showing
+    var timer  = null;
 
-    /* The hero CTA points at whichever stay is currently being previewed, so
-       "Explore the stay" stays truthful once the rail holds more than one. */
+    var DWELL = 6000;
+    var still = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    /* The hero CTA points at whichever stay is on screen, so "Explore the
+       unit" always means the one you're looking at. */
     function setActive(card) {
       if (!card || !cta) return;
       cta.setAttribute("href", card.getAttribute("href"));
       if (card.dataset.reveal) cta.dataset.reveal = card.dataset.reveal;
     }
 
+    /* Cross-fade by alternating two layers: paint the next unit onto the one
+       that's currently hidden, then swap which is visible. */
+    function show(i) {
+      if (i === shown || !cards[i]) return;
+      var card = cards[i];
+
+      if (layers.length > 1) {
+        var next = layers[(front + 1) % 2];
+        next.style.backgroundImage = "url('" + card.dataset.reveal + "')";
+        next.classList.remove("is-on");
+        void next.offsetWidth;               // restart the slow push-in
+        next.classList.add("is-on");
+        layers[front].classList.remove("is-on");
+        front = (front + 1) % 2;
+      } else {
+        layers[0].style.backgroundImage = "url('" + card.dataset.reveal + "')";
+        layers[0].classList.add("is-on");
+      }
+
+      hero.classList.add("is-peeking");
+      cards.forEach(function (c) { c.classList.remove("is-showing"); });
+      card.classList.add("is-showing");
+      setActive(card);
+      shown = i;
+    }
+
+    function play() {
+      stop();
+      if (cards.length < 2 || still.matches) return;
+      timer = window.setInterval(function () {
+        show((shown + 1) % cards.length);
+      }, DWELL);
+    }
+
+    function stop() {
+      if (timer) { window.clearInterval(timer); timer = null; }
+    }
+
     setActive(cards[0]);
 
-    Array.prototype.forEach.call(cards, function (card) {
-      function open() {
-        revealLayer.style.backgroundImage = "url('" + card.dataset.reveal + "')";
-        hero.classList.add("is-peeking");
-        setActive(card);
-      }
-      function close() {
-        hero.classList.remove("is-peeking");
-      }
-
-      card.addEventListener("mouseenter", open);
-      card.addEventListener("mouseleave", close);
-      card.addEventListener("focus", open);
-      card.addEventListener("blur", close);
+    cards.forEach(function (card, i) {
+      // Pointing at a card takes over from the rotation, and lets go of it again
+      card.addEventListener("mouseenter", function () { stop(); show(i); });
+      card.addEventListener("focus",      function () { stop(); show(i); });
+      card.addEventListener("mouseleave", play);
+      card.addEventListener("blur",       play);
     });
 
-    /* Touch screens have no hover, so follow whichever card is scrolled into
-       the rail instead. Only meaningful once the rail actually scrolls. */
-    if (cards.length > 1 && "IntersectionObserver" in window) {
-      var rail = hero.querySelector(".window-rail");
+    // Don't cycle in a tab nobody is looking at
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stop(); else play();
+    });
 
-      var spy = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
-            setActive(entry.target);
-            revealLayer.style.backgroundImage =
-              "url('" + entry.target.dataset.reveal + "')";
-          }
-        });
-      }, { root: rail, threshold: [0.75] });
+    still.addEventListener("change", function () { still.matches ? stop() : play(); });
 
-      Array.prototype.forEach.call(cards, function (card) { spy.observe(card); });
+    if (cards.length > 1 && !still.matches) {
+      // first unit appears after one dwell, so the establishing shot lands first
+      window.setTimeout(function () { show(0); play(); }, DWELL);
     }
+
+    window.__heroStop = stop;
   }
 
   /* ----------------------------------------------------------
@@ -111,6 +149,7 @@
       if (hero && revealLayer && link.dataset.reveal) {
         revealLayer.style.backgroundImage = "url('" + link.dataset.reveal + "')";
       }
+      if (window.__heroStop) window.__heroStop();
       if (hero) hero.classList.add("is-peeking");
       document.body.classList.add("is-entering");
 
@@ -189,7 +228,7 @@
         btn.setAttribute("aria-label", "Open photo: " + item.alt);
 
         var img = document.createElement("img");
-        img.src = src(item.n);
+        img.src = src(item);
         img.loading = "lazy";
         img.decoding = "async";
         img.alt = "";
@@ -206,12 +245,15 @@
     gallery.appendChild(frag);
   }
 
-  /* Mosaic tiles reference photos by file number, so reordering the groups
-     above can't silently point them at the wrong image. */
+  /* A mosaic tile finds its place in the lightbox from the photo it already
+     shows, so the markup can't drift out of step with the manifest. A tile
+     showing something not in the gallery simply isn't clickable. */
   Array.prototype.forEach.call(
-    document.querySelectorAll("[data-photo]"),
+    document.querySelectorAll(".mosaic__item"),
     function (tile) {
-      var i = indexOfPhoto(parseInt(tile.dataset.photo, 10));
+      var img = tile.querySelector("img");
+      var i = img ? indexOfPhoto(img.getAttribute("src")) : -1;
+      if (i === -1) { tile.disabled = true; tile.style.cursor = "default"; return; }
       tile.dataset.index = i;
       if (!tile.getAttribute("aria-label")) {
         tile.setAttribute("aria-label", "Open photo: " + photos[i].alt);
