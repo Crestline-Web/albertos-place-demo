@@ -309,7 +309,7 @@ a.nav__link:hover::after,
 .hero__body {
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(min(26rem, 100%), 1fr) minmax(0, auto);
   align-items: end;
   gap: clamp(2rem, 6vw, 6rem);
   padding: 0 var(--gutter) clamp(2.5rem, 6vh, 4.5rem);
@@ -338,16 +338,13 @@ a.nav__link:hover::after,
 }
 
 .hero__title {
-  font-size: clamp(3.2rem, 9vw, 6.5rem);
-  line-height: 0.92;
+  font-size: clamp(2.1rem, 4.2vw, 3.9rem);
+  line-height: 1.06;
   margin-bottom: 1.5rem;
-}
-
-.hero__title em {
-  display: block;
-  font-style: italic;
-  font-variation-settings: "SOFT" 60, "WONK" 1;
+  /* whole line in the warm sand, bold — no white half */
   color: var(--sand);
+  font-weight: 600;
+  font-variation-settings: "SOFT" 40, "WONK" 1;
 }
 
 .hero__lede {
@@ -402,12 +399,23 @@ a.nav__link:hover::after,
   display: flex;
   align-items: flex-end;
   gap: 1.25rem;
+  /* Scrolls at any width. With four cards the rail's natural width was
+     squeezing the headline column down to ~140px, so it wrapped one word
+     per line — the rail has to give, not the copy. */
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
 }
+.window-rail::-webkit-scrollbar { display: none; }
+.window-card { scroll-snap-align: start; }
 
 .window-card {
   position: relative;
   display: block;
-  width: clamp(190px, 17vw, 250px);
+  width: clamp(160px, 14vw, 215px);
+  min-width: 124px;
   aspect-ratio: 3 / 4;
   border-radius: 14px;
   overflow: hidden;
@@ -518,7 +526,8 @@ a.nav__link:hover::after,
 
 /* Ghost slots standing in for the five stays still to come */
 .window-slot {
-  width: clamp(190px, 17vw, 250px);
+  width: clamp(160px, 14vw, 215px);
+  min-width: 124px;
   aspect-ratio: 3 / 4;
   border-radius: 14px;
   border: 1px dashed rgba(247, 241, 232, 0.22);
@@ -1112,9 +1121,20 @@ body.is-entering .nav {
 
   .hero__hint { text-align: left; }
 
-  .window-rail { overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
-  .window-rail::-webkit-scrollbar { display: none; }
-  .window-card, .window-slot { width: 62vw; max-width: 240px; flex: none; }
+  /* 62vw cards ran 310px tall and were clipped by the bottom of the screen,
+     with only ~1.4 of them across. Smaller cards fit whole, show two at a
+     time, and snap so you never stop half-way between them. */
+  .window-rail { padding-bottom: 0.5rem; }
+  .window-card, .window-slot { width: clamp(138px, 42vw, 176px); flex: none; }
+
+  .window-card__label { padding: 0.8rem 0.8rem; }
+  .window-card__place { font-size: 0.55rem; letter-spacing: 0.16em; margin-bottom: 0.3rem; }
+  .window-card__name  { font-size: 0.92rem; }
+  .window-card__note  { font-size: 0.68rem; margin-top: 0.25rem; }
+
+  /* claw back enough height that the cards clear the fold */
+  .hero__body { gap: 1.75rem; padding-bottom: 1.5rem; }
+  .hero__lede { margin-bottom: 1.5rem; }
 
   /* Touch screens keep the exterior establishing shot behind the card, same
      as desktop at rest. The card itself stays the window into the unit. */
@@ -1158,6 +1178,14 @@ body.is-entering .nav {
 }
 
 @media (max-width: 560px) {
+  /* Small phones: the headline and lede were pushing the cards past the
+     bottom of the screen, so both come down and the cards come in. */
+  .hero__title { font-size: clamp(1.95rem, 9vw, 2.6rem); margin-bottom: 1.1rem; }
+  .hero__eyebrow { margin-bottom: 0.85rem; }
+  .hero__lede { font-size: 0.9rem; line-height: 1.55; margin-bottom: 1.2rem; }
+  .hero__body { gap: 1.25rem; padding-bottom: 1.1rem; }
+  .window-card, .window-slot { width: clamp(122px, 38vw, 152px); }
+
   .room__grid { gap: 8px; }
   .room__head { margin-bottom: 1rem; }
   .nearby__group { grid-template-columns: 1fr; gap: 0.6rem; }
