@@ -306,7 +306,7 @@ a.nav__link:hover::after,
   display: grid;
   grid-template-columns: minmax(min(26rem, 100%), 1fr) minmax(0, auto);
   align-items: end;
-  gap: clamp(2rem, 6vw, 6rem);
+  gap: clamp(2rem, 4vw, 4.5rem);
   padding: 0 var(--gutter) clamp(2.5rem, 6vh, 4.5rem);
 }
 
@@ -418,7 +418,7 @@ a.nav__link:hover::after,
 .window-card {
   position: relative;
   display: block;
-  width: clamp(160px, 14vw, 215px);
+  width: clamp(160px, 17vw, 260px);
   min-width: 124px;
   aspect-ratio: 3 / 4;
   border-radius: 14px;
@@ -530,7 +530,7 @@ a.nav__link:hover::after,
 
 /* Ghost slots standing in for the five stays still to come */
 .window-slot {
-  width: clamp(160px, 14vw, 215px);
+  width: clamp(160px, 17vw, 260px);
   min-width: 124px;
   aspect-ratio: 3 / 4;
   border-radius: 14px;

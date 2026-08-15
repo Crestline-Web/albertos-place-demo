@@ -6,6 +6,11 @@
    `alt` lists the file numbers whose extension differs from
    `ext` — Airbnb serves a mix of .png and .jpeg per listing.
 
+   Folder names lag the unit numbers by one: the original unit 1 was a
+   duplicate listing and was removed, but its images/unit-1-baguio/ folder
+   is still the Megatower photo set that unit 1 (below) draws its exterior
+   and rooftop shots from. Renaming the folders would only churn paths.
+
    Per group:
      orient : "portrait" | "landscape"  tile shape for the room
      wide   : true on an item far wider than its room's tile,
@@ -16,7 +21,7 @@ window.UNITS = {
 
 
   /* ---------------------------------------------------------- */
-  "unit-2": {
+  "unit-1": {
     dir: "images/unit-2-baguio/",
     prefix: "unit2-",
     ext: "png",
@@ -71,7 +76,7 @@ window.UNITS = {
      one bedroom, and a balcony rather than a shared rooftop.
      No bathroom photo exists in this listing's set.
      ---------------------------------------------------------- */
-  "unit-3": {
+  "unit-2": {
     dir: "images/unit-3-baguio/",
     prefix: "unit3-",
     ext: "jpeg",
@@ -109,7 +114,7 @@ window.UNITS = {
   /* ----------------------------------------------------------
      Moldex Residences, same grounds as unit 3, but a two-bedroom.
      ---------------------------------------------------------- */
-  "unit-4": {
+  "unit-3": {
     dir: "images/unit-4-baguio/",
     prefix: "unit4-",
     ext: "jpeg",
