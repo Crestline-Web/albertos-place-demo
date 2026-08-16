@@ -76,11 +76,18 @@
 
       if (layers.length > 1) {
         var next = layers[(front + 1) % 2];
+        var prev = layers[front];
+
+        /* The outgoing layer keeps its opacity and simply stays underneath.
+           Fading it out at the same time as fading the new one in leaves both
+           semi-transparent for a moment, and the base photo shows through the
+           gap — which read as a flash of the building between units. */
         next.style.backgroundImage = "url('" + card.dataset.reveal + "')";
         next.classList.remove("is-on");
+        next.style.zIndex = "2";
+        prev.style.zIndex = "1";
         void next.offsetWidth;               // restart the slow push-in
         next.classList.add("is-on");
-        layers[front].classList.remove("is-on");
         front = (front + 1) % 2;
       } else {
         layers[0].style.backgroundImage = "url('" + card.dataset.reveal + "')";

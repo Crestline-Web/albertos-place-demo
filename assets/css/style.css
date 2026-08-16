@@ -144,6 +144,7 @@ h1, h2, h3, h4 {
    alternate to cross-fade one unit into the next. The long transform makes a
    slow push-in that runs for the whole time a unit is on screen. */
 .hero__layer--reveal {
+  z-index: 1;                     /* JS raises the incoming layer to 2 */
   opacity: 0;
   transform: scale(1.02);
   transition:
@@ -158,7 +159,7 @@ h1, h2, h3, h4 {
 .hero__scrim {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
   background:
     linear-gradient(to right,
       rgba(28, 18, 12, 0.88) 0%,
@@ -183,8 +184,8 @@ h1, h2, h3, h4 {
    body so the open menu panel isn't painted behind the headline. */
 .hero > .nav,
 .hero > .hero__body { position: relative; }
-.hero > .hero__body { z-index: 2; }
-.hero > .nav        { z-index: 3; }
+.hero > .hero__body { z-index: 4; }
+.hero > .nav        { z-index: 5; }
 
 /* ---------- Nav ---------- */
 
