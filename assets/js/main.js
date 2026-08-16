@@ -83,9 +83,18 @@
            semi-transparent for a moment, and the base photo shows through the
            gap — which read as a flash of the building between units. */
         next.style.backgroundImage = "url('" + card.dataset.reveal + "')";
-        next.classList.remove("is-on");
         next.style.zIndex = "2";
         prev.style.zIndex = "1";
+
+        /* Snap the incoming layer back to hidden with the transition off.
+           From the second swap on it is still fully opaque from its last turn
+           on screen, and dropping .is-on on its own would only start fading it
+           out — so re-adding it a moment later had nothing left to travel and
+           the unit changed in one hard cut. */
+        next.style.transition = "none";
+        next.classList.remove("is-on");
+        void next.offsetWidth;               // land the reset un-animated
+        next.style.transition = "";
         void next.offsetWidth;               // restart the slow push-in
         next.classList.add("is-on");
         front = (front + 1) % 2;
