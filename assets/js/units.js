@@ -6,10 +6,14 @@
    `alt` lists the file numbers whose extension differs from
    `ext` — Airbnb serves a mix of .png and .jpeg per listing.
 
-   Folder names lag the unit numbers by one: the original unit 1 was a
-   duplicate listing and was removed, but its images/unit-1-baguio/ folder
-   is still the Megatower photo set that unit 1 (below) draws its exterior
-   and rooftop shots from. Renaming the folders would only churn paths.
+   Folder names no longer line up with the unit numbers, and that is fine —
+   two listings have been removed over time and the pages were renumbered
+   down while the folders stayed put. Renaming them would only churn paths.
+   The mapping is whatever `dir` says below; don't infer it from the number.
+
+   images/unit-4-baguio/ outlives its page: the 2-bedroom it belonged to is
+   gone, but unit4-01 and unit4-15 are the shared Moldex exterior shots that
+   unit 2, unit 3 and the landing page all still point at. Don't delete it.
 
    Per group:
      orient : "portrait" | "landscape"  tile shape for the room
@@ -103,7 +107,7 @@ window.UNITS = {
         { n: 2,  alt: "Balcony table and chairs looking over the pines at sunset" },
         { n: 19, alt: "Sunset over the hillside seen from the balcony" }
       ]},
-      /* Same grounds as unit 4, so these are shared rather than duplicated. */
+      /* Same grounds as unit 3, so these are shared rather than duplicated. */
       { title: "Exterior", orient: "landscape", items: [
         { file: "images/unit-4-baguio/unit4-01.jpeg", alt: "Moldex Residences entrance and grounds" },
         { file: "images/unit-4-baguio/unit4-15.jpeg", alt: "Moldex Residences towers under a clear sky" }
@@ -112,51 +116,11 @@ window.UNITS = {
   },
 
   /* ----------------------------------------------------------
-     Moldex Residences, same grounds as unit 3, but a two-bedroom.
-     ---------------------------------------------------------- */
-  "unit-3": {
-    dir: "images/unit-4-baguio/",
-    prefix: "unit4-",
-    ext: "jpeg",
-    altExt: "png",
-    alt: [8, 12, 13, 14],
-    groups: [
-      { title: "Bedroom 1", orient: "portrait", items: [
-        { n: 4,  alt: "Double bed with a pull-out mattress beside the window" },
-        { n: 5,  alt: "Double bed made up in cream below framed line art" }
-      ]},
-      { title: "Bedroom 2", orient: "portrait", items: [
-        { n: 3,  alt: "Double bed below framed line art beside the window" },
-        { n: 14, alt: "Double bed with a pull-out mattress drawn out alongside" }
-      ]},
-      { title: "Living room", orient: "portrait", items: [
-        { n: 9,  alt: "Living area and dining table seen along the galley kitchen" },
-        { n: 10, alt: "Sofa bed below a ring pendant light" }
-      ]},
-      { title: "Dining area", orient: "portrait", items: [
-        { n: 6,  alt: "Dining table and sofa at the window end of the apartment" },
-        { n: 13, alt: "Carved dining chairs and a runner on the wooden table" }
-      ]},
-      { title: "Kitchen", orient: "portrait", items: [
-        { n: 11, alt: "Kitchen counter with sink, microwave and overhead cabinets" },
-        { n: 12, alt: "Kitchen counter looking through to the dining table" }
-      ]},
-      { title: "Bathroom", orient: "portrait", items: [
-        { n: 7,  alt: "Basin, toilet and glass-screened shower" }
-      ]},
-      { title: "Exterior", orient: "landscape", items: [
-        { n: 1,  alt: "Moldex Residences entrance and grounds" },
-        { n: 15, alt: "Moldex Residences towers under a clear sky" }
-      ]}
-    ]
-  },
-
-  /* ----------------------------------------------------------
      Moldex again — a one-bedroom on a high floor. Not listed on
      Airbnb, so its page points at the Facebook page instead.
-     Same grounds as units 2 and 3, so the exterior shots are shared.
+     Same grounds as unit 2, so the exterior shots are shared.
      ---------------------------------------------------------- */
-  "unit-4": {
+  "unit-3": {
     dir: "images/moldex-highfloor/",
     prefix: "hf-",
     ext: "jpg",
